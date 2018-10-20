@@ -1,0 +1,95 @@
+@base <http://www.owl-ontologies.com/travel.owl#> .
+@prefix : <http://www.owl-ontologies.com/travel.owl#> .
+@prefix video: <http://www.purl.org/ontology/video/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix temporal: <http://swrl.stanford.edu/ontologies/built-ins/3.3/temporal.> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Individuals
+
+### DUBAI ATLANTIS WATERPARK
+
+<https://www.youtube.com/watch?v=vDR6ObwuUFM> a owl:NamedIndividual, video:Video ;
+  dc:title "Dubai - Atlantis Aquaventure Waterpark" ;
+  temporal:owlduration "PT2M14S"^^xsd:dayTimeDuration ;
+  dc:description "Atlantis the Palm is the biggest and best waterpark in the Middle East. Grab your friends, family and swim trucks and get ready for some fun!" ;
+  video:keywords "waterpark Dubai tourism" .
+
+<https://www.youtube.com/watch?v=vDR6ObwuUFM#t0:00:50,1:00:00> a owl:NamedIndividual, video:Scene ;
+  rdfs:label "guy falls off a very tall waterslide";
+  video:sceneFrom <https://www.youtube.com/watch?v=vDR6ObwuUFM> ;
+  video:temporalSegmentOf <https://www.youtube.com/watch?v=vDR6ObwuUFM> ;
+  video:depicts :WaterParkTour;
+  temporal:owlduration "PT10S"^^xsd:dayTimeDuration ;
+  temporal:owlhasFinishTime "00:01:00"^^xsd:time ;
+  temporal:owlhasStartTime "00:00:50"^^xsd:time .
+
+### THE ROCKY MOUNTAINS | CANADA - A TRAVEL TOUR
+
+:BanffNationalPark a owl:NameIndividual, :NationalPark ;
+  rdfs:subtypeOf :MountainArea ;
+  rdfs:label "Banff National Park" ;
+  :hasActivity :Hiking ;
+  :hasCountry :Canada .
+
+:LakeLouise a owl:NameIndividual, :Lake ;
+  rdfs:label "Lake Louise" ;
+  :locatedAt :BanffNationalPark ;
+  :hasCountry :Canada .
+
+:YohoNationalPark a owl:NameIndividual, :NationalPark ;
+  rdfs:label "Yoho National Park" ;
+  :hasCountry :Canada .
+
+<https://www.youtube.com/watch?v=6bY1EpDaJ0c> a owl:NamedIndividual, video:Video ;
+  dc:title "THE ROCKY MOUNTAINS | CANADA - A TRAVEL TOUR" ;
+  temporal:owlduration "PT9M32S"^^xsd:dayTimeDuration ;
+  dc:description "A tour of some popular spots in the Canadian Rockies, among them are Banff National Park in the Province of Alberta and Yoho National Park in the Province of British Columbia. " ;
+  video:keywords "Canada mountains Rocky Mountains British Columbia vacation travel" .
+
+<https://www.youtube.com/watch?v=6bY1EpDaJ0c#t0:00:38,0:01:20> a owl:NamedIndividual, video:Scene ;
+  rdfs:label "Banff National Park";
+  video:sceneFrom <https://www.youtube.com/watch?v=6bY1EpDaJ0c> ;
+  video:temporalSegmentOf <https://www.youtube.com/watch?v=6bY1EpDaJ0c> ;
+  video:depicts :BanffNationalPark ;
+  temporal:owlduration "PT34S"^^xsd:dayTimeDuration ;
+  temporal:owlhasFinishTime "00:01:20"^^xsd:time ;
+  temporal:owlhasStartTime "00:00:38"^^xsd:time .
+
+<https://www.youtube.com/watch?v=6bY1EpDaJ0c#t0:02:18,0:02:26> a owl:NamedIndividual, video:Scene ;
+  rdfs:label "Lake Louise";
+  video:sceneFrom <https://www.youtube.com/watch?v=6bY1EpDaJ0c> ;
+  video:temporalSegmentOf <https://www.youtube.com/watch?v=6bY1EpDaJ0c> ;
+  video:depicts :LakeLouise ;
+  temporal:owlduration "PT12S"^^xsd:dayTimeDuration ;
+  temporal:owlhasFinishTime "00:02:26"^^xsd:time ;
+  temporal:owlhasStartTime "00:02:18"^^xsd:time .
+
+<https://www.youtube.com/watch?v=6bY1EpDaJ0c#t0:05:03,0:05:11> a owl:NamedIndividual, video:Scene ;
+  rdfs:label "Lake Louise hiking";
+  video:sceneFrom <https://www.youtube.com/watch?v=6bY1EpDaJ0c> ;
+  video:temporalSegmentOf <https://www.youtube.com/watch?v=6bY1EpDaJ0c> ;
+  video:depicts :LakeLouise ;
+  video:depicts :hiking ;
+  temporal:owlduration "PT8S"^^xsd:dayTimeDuration ;
+  temporal:owlhasFinishTime "00:05:11"^^xsd:time ;
+  temporal:owlhasStartTime "00:05:03"^^xsd:time .
+
+## Epic surf session at Jaws - Red Bull Young Jaws
+
+<https://www.youtube.com/watch?v=usi5iMoS-l0> a owl:NamedIndividual, video:Video ;
+  dc:title "Epic surf session at Jaws - Red Bull Young Jaws" ;
+  dc:description "Red Bull Young Jaws pits Ian Walsh and a crew of up-and-coming big wave surfers against the world's most infamous waves and biggest swells to ever hit Hawaii." ;
+  temporal:owlduration "PT5M18S"^^xsd:dayTimeDuration ;
+  video:keywords "hawaii waves surfing" .
+
+<https://www.youtube.com/watch?v=usi5iMoS-l0#t0:01:26,0:03:16> a owl:NamedIndividual, video:Scene ;
+  rdfs:label "Hawaii surfing";
+  video:sceneFrom <https://www.youtube.com/watch?v=usi5iMoS-l0> ;
+  video:temporalSegmentOf <https://www.youtube.com/watch?v=usi5iMoS-l0> ;
+  video:depicts :Surf ;
+  temporal:owlduration "PT1M10S"^^xsd:dayTimeDuration ;
+  temporal:owlhasFinishTime "00:03:16"^^xsd:time ;
+  temporal:owlhasStartTime "00:01:26"^^xsd:time .

@@ -1,0 +1,834 @@
+@prefix : <http://www.owl-ontologies.com/travel.owl#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix daml: <http://www.daml.org/2001/03/daml+oil#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix video: <http://www.purl.org/ontology/video/> .
+@prefix temporal: <http://swrl.stanford.edu/ontologies/built-ins/3.3/temporal.> .
+@base <http://www.owl-ontologies.com/travel.owl> .
+
+<http://www.owl-ontologies.com/travel.owl> rdf:type owl:Ontology ;
+                                            owl:imports <http://purl.org/ontology/video/> ;
+                                            rdfs:comment "An example ontology for tutorial purposes."^^xsd:string ;
+                                            owl:versionInfo "1.0 by Holger Knublauch  (holger@smi.stanford.edu)"^^xsd:string .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://purl.org/dc/elements/1.1/description
+dc:description rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/elements/1.1/title
+dc:title rdf:type owl:AnnotationProperty .
+
+
+###  http://swrl.stanford.edu/ontologies/built-ins/3.3/temporal.owlduration
+temporal:owlduration rdf:type owl:AnnotationProperty .
+
+
+###  http://swrl.stanford.edu/ontologies/built-ins/3.3/temporal.owlhasFinishTime
+temporal:owlhasFinishTime rdf:type owl:AnnotationProperty .
+
+
+###  http://swrl.stanford.edu/ontologies/built-ins/3.3/temporal.owlhasStartTime
+temporal:owlhasStartTime rdf:type owl:AnnotationProperty .
+
+
+###  http://www.purl.org/ontology/video/depicts
+video:depicts rdf:type owl:AnnotationProperty .
+
+
+###  http://www.purl.org/ontology/video/keywords
+video:keywords rdf:type owl:AnnotationProperty .
+
+
+###  http://www.purl.org/ontology/video/sceneFrom
+video:sceneFrom rdf:type owl:AnnotationProperty .
+
+
+###  http://www.purl.org/ontology/video/temporalSegmentOf
+video:temporalSegmentOf rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Datatypes
+#################################################################
+
+###  http://www.w3.org/2001/XMLSchema#duration
+xsd:duration rdf:type rdfs:Datatype .
+
+
+###  http://www.w3.org/2001/XMLSchema#time
+xsd:time rdf:type rdfs:Datatype .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://purl.org/ontology/video/depicts
+<http://purl.org/ontology/video/depicts> owl:inverseOf :depictedIn .
+
+
+###  http://www.owl-ontologies.com/travel.owl#depictedIn
+:depictedIn rdf:type owl:ObjectProperty .
+
+###  http://www.owl-ontologies.com/travel.owl#hasDurationRange
+:hasDurationRange rdf:type owl:ObjectProperty .
+
+###  http://www.owl-ontologies.com/travel.owl#depictsTourismFeature
+:depictsTourismFeature rdf:type owl:ObjectProperty ;
+                       rdfs:range :TourismFeature .
+
+
+###  http://www.owl-ontologies.com/travel.owl#hasAccommodation
+:hasAccommodation rdf:type owl:ObjectProperty ;
+                  rdfs:domain :Destination ;
+                  rdfs:range :Accommodation .
+
+
+###  http://www.owl-ontologies.com/travel.owl#hasActivity
+:hasActivity rdf:type owl:ObjectProperty ;
+             owl:inverseOf :isOfferedAt ;
+             rdfs:domain :Destination ;
+             rdfs:range :Activity .
+
+
+###  http://www.owl-ontologies.com/travel.owl#hasContact
+:hasContact rdf:type owl:ObjectProperty ;
+            rdfs:domain :Activity ;
+            rdfs:range :Contact .
+
+
+###  http://www.owl-ontologies.com/travel.owl#hasCountry
+:hasCountry rdf:type owl:ObjectProperty ;
+            rdfs:domain :Destination ;
+            rdfs:range :Country .
+
+
+###  http://www.owl-ontologies.com/travel.owl#hasPart
+:hasPart rdf:type owl:ObjectProperty ,
+                  owl:TransitiveProperty ;
+         rdfs:domain :Destination ;
+         rdfs:range :Destination .
+
+
+###  http://www.owl-ontologies.com/travel.owl#hasRating
+:hasRating rdf:type owl:ObjectProperty ;
+           rdfs:domain :Accommodation ;
+           rdfs:range :AccommodationRating .
+
+
+###  http://www.owl-ontologies.com/travel.owl#isOfferedAt
+:isOfferedAt rdf:type owl:ObjectProperty ;
+             rdfs:domain :Activity ;
+             rdfs:range :Destination .
+
+
+###  http://www.owl-ontologies.com/travel.owl#locatedAt
+:locatedAt rdf:type owl:ObjectProperty ;
+           rdfs:domain :Destination .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://www.owl-ontologies.com/travel.owl#hasCity
+:hasCity rdf:type owl:DatatypeProperty ,
+                  owl:FunctionalProperty ;
+         rdfs:domain :Contact ;
+         rdfs:range xsd:string .
+
+
+###  http://www.owl-ontologies.com/travel.owl#hasEMail
+:hasEMail rdf:type owl:DatatypeProperty ,
+                   owl:FunctionalProperty ;
+          rdfs:domain :Contact ;
+          rdfs:range xsd:string .
+
+
+###  http://www.owl-ontologies.com/travel.owl#hasStreet
+:hasStreet rdf:type owl:DatatypeProperty ,
+                    owl:FunctionalProperty ;
+           rdfs:domain :Contact ;
+           rdfs:range xsd:string .
+
+
+###  http://www.owl-ontologies.com/travel.owl#hasZipCode
+:hasZipCode rdf:type owl:DatatypeProperty ,
+                     owl:FunctionalProperty ;
+            rdfs:domain :Contact ;
+            rdfs:range xsd:int .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://mpeg7.org/Video
+<http://mpeg7.org/Video> rdf:type owl:Class .
+
+
+###  http://www.owl-ontologies.com/travel.owl#DurationRange
+:DurationRange rdf:type owl:Class ;
+               rdfs:comment "A duration range (as short, medium, long)"^^xsd:string . 
+
+###  http://www.owl-ontologies.com/travel.owl#Accommodation
+:Accommodation rdf:type owl:Class ;
+               rdfs:comment "A place to stay for tourists."^^xsd:string .
+
+
+###  http://www.owl-ontologies.com/travel.owl#AccommodationRating
+:AccommodationRating rdf:type owl:Class ;
+                     owl:equivalentClass [ rdf:type owl:Class ;
+                                           owl:oneOf ( :OneStarRating
+                                                       :ThreeStarRating
+                                                       :TwoStarRating
+                                                     )
+                                         ] ;
+                     rdfs:comment "Consists of exactly three individuals."^^xsd:string .
+
+
+###  http://www.owl-ontologies.com/travel.owl#Activity
+:Activity rdf:type owl:Class .
+
+
+###  http://www.owl-ontologies.com/travel.owl#Adventure
+:Adventure rdf:type owl:Class ;
+           rdfs:subClassOf :Activity ;
+           owl:disjointWith :Relaxation ,
+                            :Sightseeing ;
+           rdfs:label "adventure" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#AdventureParkTour
+:AdventureParkTour rdf:type owl:Class ;
+                   rdfs:subClassOf :Adventure ,
+                                   :AmusementParkTour ;
+                   rdfs:label "adventure park tour" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#Amusement
+:Amusement rdf:type owl:Class ;
+           rdfs:subClassOf :Activity ;
+           owl:disjointWith :Relaxation ,
+                            :Sightseeing ,
+                            :Sport ;
+           rdfs:label "amusement" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#AmusementParkTour
+:AmusementParkTour rdf:type owl:Class ;
+                   rdfs:subClassOf :Amusement ;
+                   rdfs:label "amusement park tour" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#AquaticArea
+:AquaticArea rdf:type owl:Class ;
+             rdfs:subClassOf :Destination , 
+                             :NatureArea, 
+                             [ owl:intersectionOf ( :Destination
+                                                    [ rdf:type owl:Restriction ;
+                                                      owl:onProperty :hasActivity ;
+                                                      owl:someValuesFrom :WaterSport
+                                                    ]
+                                                  ) ;
+                               rdf:type owl:Class
+                             ] ;
+             rdfs:label "aquatic area" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#BackpackersDestination
+:BackpackersDestination rdf:type owl:Class ;
+                        owl:equivalentClass [ owl:intersectionOf ( :Destination
+                                                                   [ rdf:type owl:Restriction ;
+                                                                     owl:onProperty :hasAccommodation ;
+                                                                     owl:someValuesFrom :BudgetAccommodation
+                                                                   ]
+                                                                   [ rdf:type owl:Restriction ;
+                                                                     owl:onProperty :hasActivity ;
+                                                                     owl:someValuesFrom [ rdf:type owl:Class ;
+                                                                                          owl:unionOf ( :Adventure
+                                                                                                        :Sport
+                                                                                                      )
+                                                                                        ]
+                                                                   ]
+                                                                 ) ;
+                                              rdf:type owl:Class
+                                            ] ;
+                        rdfs:comment "A destination that provides budget accommodation and offers sport or adventure activities."^^xsd:string ;
+                        rdfs:label "backpackers destination" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#Beach
+:Beach rdf:type owl:Class ;
+       rdfs:subClassOf :AquaticArea ;
+       rdfs:label "beach area" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#BedAndBreakfast
+:BedAndBreakfast rdf:type owl:Class ;
+                 rdfs:subClassOf :Accommodation ;
+                 owl:disjointWith :Campground ,
+                                  :Hotel .
+
+
+###  http://www.owl-ontologies.com/travel.owl#BudgetAccommodation
+:BudgetAccommodation rdf:type owl:Class ;
+                     owl:equivalentClass [ owl:intersectionOf ( :Accommodation
+                                                                [ rdf:type owl:Restriction ;
+                                                                  owl:onProperty :hasRating ;
+                                                                  owl:someValuesFrom [ rdf:type owl:Class ;
+                                                                                       owl:oneOf ( :OneStarRating
+                                                                                                   :TwoStarRating
+                                                                                                 )
+                                                                                     ]
+                                                                ]
+                                                              ) ;
+                                           rdf:type owl:Class
+                                         ] ;
+                     rdfs:comment "Accommodation that has either one or two star rating."^^xsd:string .
+
+
+###  http://www.owl-ontologies.com/travel.owl#BudgetHotelDestination
+:BudgetHotelDestination rdf:type owl:Class ;
+                        owl:equivalentClass [ owl:intersectionOf ( :Destination
+                                                                   [ rdf:type owl:Restriction ;
+                                                                     owl:onProperty :hasAccommodation ;
+                                                                     owl:someValuesFrom [ owl:intersectionOf ( :BudgetAccommodation
+                                                                                                               :Hotel
+                                                                                                             ) ;
+                                                                                          rdf:type owl:Class
+                                                                                        ]
+                                                                   ]
+                                                                 ) ;
+                                              rdf:type owl:Class
+                                            ] ;
+                        rdfs:comment "A destination with a hotel that is also a budget accommodation."^^xsd:string .
+
+
+###  http://www.owl-ontologies.com/travel.owl#BunjeeJumping
+:BunjeeJumping rdf:type owl:Class ;
+               rdfs:subClassOf :Adventure ;
+               rdfs:label "bunjee jumping" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#Campground
+:Campground rdf:type owl:Class ;
+            rdfs:subClassOf :Accommodation ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :hasRating ;
+                              owl:hasValue :OneStarRating
+                            ] ;
+            owl:disjointWith :Hotel .
+
+
+###  http://www.owl-ontologies.com/travel.owl#Capital
+:Capital rdf:type owl:Class ;
+         rdfs:subClassOf :City ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasActivity ;
+                           owl:someValuesFrom :Museums
+                         ] ;
+         rdfs:label "capital" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#City
+:City rdf:type owl:Class ;
+      rdfs:subClassOf :UrbanArea ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty :hasAccommodation ;
+                        owl:someValuesFrom :LuxuryHotel
+                      ] ;
+      rdfs:label "city" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#Climate
+:Climate rdf:type owl:Class .
+
+
+###  http://www.owl-ontologies.com/travel.owl#Contact
+:Contact rdf:type owl:Class .
+
+
+###  http://www.owl-ontologies.com/travel.owl#Country
+:Country rdf:type owl:Class .
+
+
+###  http://www.owl-ontologies.com/travel.owl#Countryside
+:Countryside rdf:type owl:Class ;
+             rdfs:subClassOf :RuralArea ;
+             rdfs:label "countryside" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#Destination
+:Destination rdf:type owl:Class .
+
+
+###  http://www.owl-ontologies.com/travel.owl#DryClimate
+:DryClimate rdf:type owl:Class ;
+            rdfs:subClassOf :Climate ;
+            rdfs:label "dry climate" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#FamilyDestination
+:FamilyDestination rdf:type owl:Class ;
+                   owl:equivalentClass [ owl:intersectionOf ( :Destination
+                                                              [ rdf:type owl:Restriction ;
+                                                                owl:onProperty :hasAccommodation ;
+                                                                owl:minCardinality "1"^^xsd:nonNegativeInteger
+                                                              ]
+                                                              [ rdf:type owl:Restriction ;
+                                                                owl:onProperty :hasActivity ;
+                                                                owl:minCardinality "2"^^xsd:nonNegativeInteger
+                                                              ]
+                                                            ) ;
+                                         rdf:type owl:Class
+                                       ] ;
+                   rdfs:comment "A destination with at least one accommodation and at least 2 activities."^^xsd:string .
+
+
+###  http://www.owl-ontologies.com/travel.owl#Farmland
+:Farmland rdf:type owl:Class ;
+          rdfs:subClassOf :Countryside .
+
+
+###  http://www.owl-ontologies.com/travel.owl#HighlandClimate
+:HighlandClimate rdf:type owl:Class ;
+                 rdfs:subClassOf :Climate ;
+                 rdfs:label "highland climate" .
+
+###  http://www.owl-ontologies.com/travel.owl#NatureArea
+:NatureArea rdf:type owl:Class ;
+            rdfs:subClassOf :Destination .
+
+###  http://www.owl-ontologies.com/travel.owl#Hotel
+:Hotel rdf:type owl:Class ;
+       rdfs:subClassOf :Accommodation .
+
+
+###  http://www.owl-ontologies.com/travel.owl#Lake
+:Lake rdf:type owl:Class ;
+      rdfs:subClassOf :LakeArea ;
+      rdfs:label "lake" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#LakeArea
+:LakeArea rdf:type owl:Class ;
+          rdfs:subClassOf :AquaticArea ;
+          rdfs:label "lake area" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#LakeBeach
+:LakeBeach rdf:type owl:Class ;
+           rdfs:subClassOf :Beach ,
+                           :LakeArea ;
+           rdfs:label "lake beach" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#LuxuryHotel
+:LuxuryHotel rdf:type owl:Class ;
+             rdfs:subClassOf :Hotel ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasRating ;
+                               owl:hasValue :ThreeStarRating
+                             ] .
+
+
+###  http://www.owl-ontologies.com/travel.owl#MarineArea
+:MarineArea rdf:type owl:Class ;
+            rdfs:subClassOf :AquaticArea ;
+            owl:disjointWith :MountainArea ;
+            rdfs:label "marine area" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#MarineClimate
+:MarineClimate rdf:type owl:Class ;
+               rdfs:subClassOf :MildClimate ;
+               rdfs:label "marine climate" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#MediterraneanClimate
+:MediterraneanClimate rdf:type owl:Class ;
+                      rdfs:subClassOf :MildClimate ;
+                      rdfs:label "mediterranean climate" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#MildClimate
+:MildClimate rdf:type owl:Class ;
+             rdfs:subClassOf :Climate ;
+             rdfs:label "mild climate" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#MountainArea
+:MountainArea rdf:type owl:Class ;
+              owl:equivalentClass [ owl:intersectionOf ( :Destination
+                                                         [ rdf:type owl:Restriction ;
+                                                           owl:onProperty :hasActivity ;
+                                                           owl:someValuesFrom :MountainSport
+                                                         ]
+                                                       ) ;
+                                    rdf:type owl:Class
+                                  ] ;
+              rdfs:subClassOf :Destination,
+                              :NatureArea ;
+              rdfs:label "mountain area" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#MountainBiking
+:MountainBiking rdf:type owl:Class ;
+                rdfs:subClassOf :MountainSport ;
+                rdfs:label "mountain biking" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#MountainSport
+:MountainSport rdf:type owl:Class ;
+               owl:equivalentClass [ owl:intersectionOf ( :Sport
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty :isOfferedAt ;
+                                                            owl:someValuesFrom :MountainArea
+                                                          ]
+                                                        ) ;
+                                     rdf:type owl:Class
+                                   ] ;
+               rdfs:subClassOf :Sport ;
+               rdfs:label "mountain sport" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#Museums
+:Museums rdf:type owl:Class ;
+         rdfs:subClassOf :Sightseeing ;
+         rdfs:label "museums" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#NationalPark
+:NationalPark rdf:type owl:Class ;
+              rdfs:subClassOf :NatureArea ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty :hasAccommodation ;
+                                owl:someValuesFrom :Campground
+                              ] ;
+              rdfs:label "national park" .
+
+:CulinaryDestination rdf:type owl:Class ;
+              rdfs:subClassOf :Destination ;
+              rdfs:comment "a destination that offers a wide choice of foods.";
+              rdfs:label "culinary destination" .
+
+###  http://www.owl-ontologies.com/travel.owl#QuietDestination
+:QuietDestination rdf:type owl:Class ;
+                  owl:equivalentClass [ owl:intersectionOf ( :Destination
+                                                             [ rdf:type owl:Class ;
+                                                               owl:complementOf :FamilyDestination
+                                                             ]
+                                                           ) ;
+                                        rdf:type owl:Class
+                                      ] ;
+                  rdfs:comment "A destination that is not frequented by noisy families."^^xsd:string .
+
+
+###  http://www.owl-ontologies.com/travel.owl#Relaxation
+:Relaxation rdf:type owl:Class ;
+            rdfs:subClassOf :Activity ;
+            owl:disjointWith :Sightseeing ,
+                             :Sport ;
+            rdfs:label "relaxation" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#RetireeDestination
+:RetireeDestination rdf:type owl:Class ;
+                    owl:equivalentClass [ owl:intersectionOf ( :Destination
+                                                               [ rdf:type owl:Restriction ;
+                                                                 owl:onProperty :hasAccommodation ;
+                                                                 owl:someValuesFrom [ rdf:type owl:Restriction ;
+                                                                                      owl:onProperty :hasRating ;
+                                                                                      owl:hasValue :ThreeStarRating
+                                                                                    ]
+                                                               ]
+                                                               [ rdf:type owl:Restriction ;
+                                                                 owl:onProperty :hasActivity ;
+                                                                 owl:someValuesFrom :Sightseeing
+                                                               ]
+                                                             ) ;
+                                          rdf:type owl:Class
+                                        ] ;
+                    rdfs:comment "A destination with at least one three star accommodation and sightseeing opportunities."^^xsd:string .
+
+
+###  http://www.owl-ontologies.com/travel.owl#RuralArea
+:RuralArea rdf:type owl:Class ;
+           rdfs:subClassOf :Destination ;
+           owl:disjointWith :UrbanArea ;
+           rdfs:label "rural area" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#SeaArea
+:SeaArea rdf:type owl:Class ;
+         rdfs:subClassOf :MarineArea ;
+         rdfs:label "sea area" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#SeaBeach
+:SeaBeach rdf:type owl:Class ;
+          rdfs:subClassOf :Beach ,
+                          :MarineArea ;
+          rdfs:label "sea beach" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#Sightseeing
+:Sightseeing rdf:type owl:Class ;
+             rdfs:subClassOf :Activity ;
+             owl:disjointWith :Sport ;
+             rdfs:label "sightseeing" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#Sport
+:Sport rdf:type owl:Class ;
+       rdfs:subClassOf :Activity ;
+       rdfs:label "sport" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#Sunbathing
+:Sunbathing rdf:type owl:Class ;
+            rdfs:subClassOf :Relaxation ;
+            rdfs:label "sunbathing" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#SurfaceWaterSport
+:SurfaceWaterSport rdf:type owl:Class ;
+                   rdfs:subClassOf :WaterSport ;
+                   rdfs:label "surface water sport" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#TourismFeature
+:TourismFeature rdf:type owl:Class .
+
+
+###  http://www.owl-ontologies.com/travel.owl#Town
+:Town rdf:type owl:Class ;
+      rdfs:subClassOf :UrbanArea ;
+      rdfs:label "town" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#TropicalClimate
+:TropicalClimate rdf:type owl:Class ;
+                 rdfs:subClassOf :Climate ;
+                 rdfs:label "tropical climate" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#UnderWaterSport
+:UnderWaterSport rdf:type owl:Class ;
+                 rdfs:subClassOf :WaterSport ;
+                 rdfs:label "underwater sport" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#UrbanArea
+:UrbanArea rdf:type owl:Class ;
+           rdfs:subClassOf :Destination ;
+           rdfs:label "urban area" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#WaterParkTour
+:WaterParkTour rdf:type owl:Class ;
+               rdfs:subClassOf :AmusementParkTour ;
+               rdfs:label "water park tour" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#WaterSport
+:WaterSport rdf:type owl:Class ;
+            owl:equivalentClass [ owl:intersectionOf ( :Sport
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty :isOfferedAt ;
+                                                         owl:someValuesFrom :AquaticArea
+                                                       ]
+                                                     ) ;
+                                  rdf:type owl:Class
+                                ] ;
+            rdfs:subClassOf :Sport ;
+            rdfs:label "water sport" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#Yoga
+:Yoga rdf:type owl:Class ;
+      rdfs:subClassOf :Relaxation ;
+      rdfs:label "yoga" .
+
+
+###  http://www.purl.org/ontology/video/Scene
+video:Scene rdf:type owl:Class .
+
+
+###  http://www.purl.org/ontology/video/Video
+video:Video rdf:type owl:Class .
+
+
+###  http://www.w3.org/2002/07/owl#NameIndividual
+owl:NameIndividual rdf:type owl:Class .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://www.owl-ontologies.com/travel.owl#ShortDuration
+:ShortDuration rdf:type owl:NamedIndividual ,
+                           :DurationRange .
+
+###  http://www.owl-ontologies.com/travel.owl#AverageDuration
+:AverageDuration rdf:type owl:NamedIndividual ,
+                           :DurationRange .
+
+###  http://www.owl-ontologies.com/travel.owl#LongDuration
+:LongDuration rdf:type owl:NamedIndividual ,
+                           :DurationRange .
+
+###  http://www.owl-ontologies.com/travel.owl#AdventureFeature
+:AdventureFeature rdf:type owl:NamedIndividual ,
+                           :TourismFeature .
+
+
+###  http://www.owl-ontologies.com/travel.owl#BanffNationalPark
+:BanffNationalPark rdf:type owl:NamedIndividual ,
+                            :NationalPark ,
+                            owl:NameIndividual ;
+                   :hasActivity :Hiking ;
+                   :hasCountry :Canada ;
+                   rdfs:label "Banff National Park" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#Canada
+:Canada rdf:type owl:NamedIndividual ,
+                 :Country ;
+        rdfs:label "Canada" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#DeepDiving
+:DeepDiving rdf:type owl:NamedIndividual .
+
+
+###  http://www.owl-ontologies.com/travel.owl#Deepdiving
+:Deepdiving rdf:type owl:NamedIndividual ,
+                     :UnderWaterSport ;
+            rdfs:label "deepdiving" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#Downhill
+:Downhill rdf:type owl:NamedIndividual ,
+                   :MountainBiking ;
+          rdfs:label "downhill" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#FoodFeature
+:FoodFeature rdf:type owl:NamedIndividual ,
+                      :TourismFeature .
+
+
+###  http://www.owl-ontologies.com/travel.owl#Freeride
+:Freeride rdf:type owl:NamedIndividual ,
+                   :MountainBiking ;
+          rdfs:label "freeride" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#Hiking
+:Hiking rdf:type owl:NamedIndividual .
+
+
+###  http://www.owl-ontologies.com/travel.owl#LakeLouise
+:LakeLouise rdf:type owl:NamedIndividual ,
+                     :Lake ,
+                     owl:NameIndividual ;
+            :hasCountry :Canada ;
+            :locatedAt :BanffNationalPark ;
+            rdfs:label "Lake Louise" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#Mountains
+:Mountains rdf:type owl:NamedIndividual .
+
+
+###  http://www.owl-ontologies.com/travel.owl#NatureFeature
+:NatureFeature rdf:type owl:NamedIndividual ,
+                        :TourismFeature .
+
+
+###  http://www.owl-ontologies.com/travel.owl#OneStarRating
+:OneStarRating rdf:type owl:NamedIndividual ,
+                        :AccommodationRating .
+
+
+###  http://www.owl-ontologies.com/travel.owl#RelaxFeature
+:RelaxFeature rdf:type owl:NamedIndividual ,
+                       :TourismFeature .
+
+
+###  http://www.owl-ontologies.com/travel.owl#Snorkeling
+:Snorkeling rdf:type owl:NamedIndividual ,
+                     :SurfaceWaterSport ;
+            rdfs:label "snorkeling" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#SportFeature
+:SportFeature rdf:type owl:NamedIndividual ,
+                       :TourismFeature .
+
+
+###  http://www.owl-ontologies.com/travel.owl#Surf
+:Surf rdf:type owl:NamedIndividual ,
+               :SurfaceWaterSport ;
+      rdfs:label "surf" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#ThreeStarRating
+:ThreeStarRating rdf:type owl:NamedIndividual ,
+                          :AccommodationRating .
+
+
+###  http://www.owl-ontologies.com/travel.owl#TwoStarRating
+:TwoStarRating rdf:type owl:NamedIndividual ,
+                        :AccommodationRating .
+
+
+###  http://www.owl-ontologies.com/travel.owl#YohoNationalPark
+:YohoNationalPark rdf:type owl:NamedIndividual ,
+                           :NationalPark ,
+                           owl:NameIndividual ;
+                  :hasCountry :Canada ;
+                  rdfs:label "Yoho National Park" .
+
+
+###  http://www.owl-ontologies.com/travel.owl#hiking
+:hiking rdf:type owl:NamedIndividual ,
+                 :MountainSport .
+
+#################################################################
+#    General axioms
+#################################################################
+
+[ rdf:type owl:AllDifferent ;
+  owl:distinctMembers ( :OneStarRating
+                        :ThreeStarRating
+                      )
+] .
+
+
+[ rdf:type owl:AllDifferent ;
+  owl:distinctMembers ( :OneStarRating
+                        :TwoStarRating
+                      )
+] .
+
+
+[ rdf:type owl:AllDifferent ;
+  owl:distinctMembers ( :ThreeStarRating
+                        :TwoStarRating
+                      )
+] .
+
+
+###  Generated by the OWL API (version 4.5.6.2018-09-06T00:27:41Z) https://github.com/owlcs/owlapi

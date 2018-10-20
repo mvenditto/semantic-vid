@@ -1,0 +1,43 @@
+@base <http://www.owl-ontologies.com/travel.owl#> .
+@prefix : <http://www.owl-ontologies.com/travel.owl#> .
+@prefix rule: <tag:stardog:api:rule:> .
+@prefix video: <http://www.purl.org/ontology/video/> .
+
+RULE :TransitiveDepicts
+IF {
+   ?s video:sceneFrom ?v ;
+    video:depicts ?o .
+}
+THEN {
+   ?v video:depicts ?o .
+}
+
+RULE :VideoHasShortDuration
+IF {
+    ?v a video:Video ;
+        temporal:owlduration ?d .
+    FILTER(minutes(?d) <= 5) .
+} 
+THEN {
+    ?v :hasDurationRange :ShortDuration .
+}
+
+RULE :VideoHasAverageDuration
+IF {
+    ?v a video:Video ;
+        temporal:owlduration ?d .
+    FILTER(minutes(?d) > 5 && minutes(?d) <= 15) .
+} 
+THEN {
+    ?v :hasDurationRange :AverageDuration .
+}
+
+RULE :VideoHasLongDuration
+IF {
+    ?v a video:Video ;
+        temporal:owlduration ?d .
+    FILTER(minutes(?d) > 15) .
+} 
+THEN {
+    ?v :hasDurationRange :LongDuration .
+}
