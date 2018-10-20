@@ -1,0 +1,4 @@
+SELECT ?url ?label WHERE {
+    ?url <http://www.purl.org/ontology/video/sceneFrom> <{{ video_url }}> ;
+            rdfs:label ?label.
+}

@@ -1,0 +1,5 @@
+PATHS START ?y {
+    ?y rdfs:label ?o. 
+    ?o <tag:stardog:api:property:textMatch> "{{ cfg['expr'] }}". 
+}
+END ?x VIA (^:|!^:)* MAX LENGTH {{ cfg['max_len'] }}

@@ -1,0 +1,11 @@
+{% raw %}
+PATHS START ?y { VALUES ?y {{% endraw %} {{ cfg['concepts'] }} {{ '}}' }}
+{% raw %}
+END ?x {  
+    ?x <http://www.purl.org/ontology/video/sceneFrom> ?v.
+    ?v <http://purl.org/dc/terms/title> ?title ;
+        <http://purl.org/dc/terms/description> ?desc ;
+        <http://www.purl.org/ontology/video/keywords> ?tags .
+}
+{% endraw %}
+VIA (^:|!^:)+ MAX LENGTH {{ cfg['max_len'] }}

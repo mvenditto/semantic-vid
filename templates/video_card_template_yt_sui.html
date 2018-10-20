@@ -1,0 +1,143 @@
+<!doctype html>
+<div class="ui four column grid">
+{% for page in vid_pages %}
+	<div class="row">
+	{% for v in page %}
+		<div class="column">
+			<div class="ui blurring card" style="height: 400px;">
+				<div class="image" style="padding-top:10px; height: 45%;">
+				  	<video
+				  		style="width: 100%; height: 100%;"
+					    id="vid-{{v['id']}}"
+					    class="video-js vjs-default-skin"
+					    controls
+					    data-setup='{ "fluid": false, "techOrder": ["youtube"], "sources": [{ "type": "video/youtube", "src": "{{v["url"]}}"}] }'>
+		  			</video>
+				</div>
+				<div class="header" style="padding: 0.35rem; max-height: 15%; width:100%;">
+					<div id="header-bar-{{v['id']}}" class="ui active move left reveal" style="height: 24px;">
+					    <div class="hidden content tags-{{v['id']}} main-carousel">
+							{% for tag in v["keywords"] %}
+					    		<div class="carousel-cell"><span class="ui horizontal label" style="background-color:#7462ff; color:white; margin-right: 2px;">{{tag}}</span></div>
+					  		{% endfor %}
+						</div>
+					 	<div class="visible content" style="background-color: white; width:100%; display: flex;">
+							<img style="margin: auto;" class="{% if not v['tourism_features']['amusement'] %} disabled {% endif %} ui image" height="24px" src="/static/icons/carousel.svg">
+							<img style="margin: auto;" class="{% if not v['tourism_features']['food'] %} disabled {% endif %} ui image" height="24px" src="/static/icons/food.svg">
+						  	<img style="margin: auto;" class="{% if not v['tourism_features']['sport'] %} disabled {% endif %} ui image" height="24px" src="/static/icons/football.svg">
+						  	<img style="margin: auto;" class="{% if not v['tourism_features']['nature'] %} disabled {% endif %} ui image" height="24px" src="/static/icons/leaf.svg">
+						  	<img style="margin: auto;" class="{% if not v['tourism_features']['adventure'] %} disabled {% endif %} ui image" height="24px" src="/static/icons/compass.svg">
+						  	<img style="margin: auto;" class="{% if not v['tourism_features']['relaxation'] %} disabled {% endif %} ui image" height="24px" src="/static/icons/spa.svg">
+					 	</div>
+					</div>
+				</div>
+				<div class="ui two item menu" style="margin:0px; padding:0px; height: 8px;  min-height: 2em;">
+				  <a id="desc-tab-{{v['id']}}" class="item active" style="padding: 0px;"
+				  	onclick="
+				  	$('#desc-{{v['id']}}').toggle();$('#scenes-{{v['id']}}').toggle();
+				  	$('#desc-tab-{{v['id']}}').addClass('active');$('#scenes-tab-{{v['id']}}').removeClass('active');">
+				  Description</a>
+				  <a id ="scenes-tab-{{v['id']}}" class="item" style="padding: 0px;"
+				  	onclick="
+				  	$('#desc-{{v['id']}}').toggle();$('#scenes-{{v['id']}}').toggle();
+				  	$('#desc-tab-{{v['id']}}').removeClass('active');$('#scenes-tab-{{v['id']}}').addClass('active');">
+				  Scenes</a>
+				</div>
+				<div class="content" style="overflow-y: auto;">
+					<div id="desc-{{v['id']}}" class="description" style="display:visible;">
+						<p>{{v["description"]}}</p>
+					</div>
+					<div id ="scenes-{{v['id']}}" style="display:none;">
+					  	<div class="ui relaxed divided list">
+					  		{% for s in v["scenes"] %}
+							<div class="item">
+							    <div class="content">
+							      <a class="header" onclick="semanticVid.videos.vid_{{v['id']}}.currentTime({{s['start_time']}});">
+							      	{{s["label"]}}
+							  	  </a>
+							      <div class="description">{{s["start_time_fmt"]}}</div>
+								</div>
+							</div>
+				  			{% endfor %}
+						</div>
+					</div>
+				</div>
+				<div class="ui bottom right attached label" onclick="$('#concepts-{{v['id']}}').dimmer('show');">
+					Concepts
+					<div class="detail">{{v['n_concepts']}}</div>
+				</div>
+				<div class="ui bottom left attached label" 
+					onmouseenter="$('#header-bar-{{v['id']}}').removeClass('active')"
+					onmouseleave="$('#header-bar-{{v['id']}}').addClass('active')">
+					Badges
+				</div>
+				
+				<div id="concepts-{{v['id']}}" class="ui top aligned dimmer">
+				    <div class="content">
+				      <h2 class="ui inverted header">Related Concepts!</h2>
+				      <div class="ui divider"></div>
+				      <div class="ui relaxed divided list">
+					  		{% for s in v["concepts"] %}
+							<div class="item">
+							    <div class="content">
+							      <a class="header">
+							      	{{s}}
+							  	  </a>
+								</div>
+							</div>
+				  			{% endfor %}
+					  </div>
+				      <div class="ui divider"></div>
+				      <div class="ui primary button" onclick="$('#concepts-{{v['id']}}').dimmer('hide');">Okay!</div>
+				    </div>
+				 </div>
+			</div>
+		</div>
+	{% endfor %}
+	</div>
+{% endfor %}
+</div>
+
+<script>
+	(function(){
+		window.semanticVid = {videos: {}}
+		{% for page in vid_pages %}
+		{% for v in page %}
+		window.semanticVid.videos.vid_{{v['id']}} = videojs("vid-{{v['id']}}");
+		
+		window.semanticVid.videos.vid_{{v['id']}}.markers({
+			markerStyle: {
+				'border-radius': '0%',
+				'background-color': '#0097ff'
+			},
+			markerTip: {
+				display: true,
+				text: function(marker) {
+					return marker.text
+				}
+			},
+			markers: []
+		});
+
+		window.semanticVid.videos.vid_{{v['id']}}.one('play', function(){
+			window.semanticVid.videos.vid_{{v['id']}}.markers.reset([
+				{%- for s in v['scenes'] -%}
+					{"time": {{s["start_time"]}}, "text": "{{s["label"]}}"},
+				{%- endfor -%}
+				]
+			);
+		});
+
+		$('.main-carousel').flickity({ 
+		  	freeScroll: true,
+			contain: true,
+			prevNextButtons: false,
+			pageDots: false
+		});
+
+		$('.menu .item').tab();
+
+		{% endfor %}
+		{% endfor %}
+	})()
+</script>

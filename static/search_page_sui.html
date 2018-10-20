@@ -1,0 +1,78 @@
+<html>
+<head>
+<meta charset="UTF-8"> 
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<link rel="stylesheet" type="text/css" href="semantic/semantic.min.css">
+<script src="semantic/semantic.min.js"></script>
+<link href="https://vjs.zencdn.net/7.1.0/video-js.css" rel="stylesheet">
+<link href="css/videojs.markers.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+<script src="https://vjs.zencdn.net/7.1.0/video.js"></script>
+<script src="js/Youtube.min.js"></script>
+<script src="js/videojs-markers.min.js"></script>
+<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+<style>
+	
+	body {
+		width: 100%;
+		height: 100%;
+	}
+
+	#main-container {
+		padding-left: 1%;
+	}
+
+	.ui.card {
+		height: 450px;
+	}
+
+	#search-box {
+		left: 35%;
+		width: 25%;
+		padding: 1%;
+	}
+
+	#search-box .ui.input>input:focus {
+		border-color: #8273ff;
+	}
+
+</style>
+<script>
+	$(document).ready(function(){
+		window.semanticVid = {videos: {}}
+		$("#btn-search").click(function(){
+			var searchInput = $("#search-bar").val()
+		    $.get("http://localhost:5000/search/"+searchInput, function(data, status){
+		       $("#main-container").empty();
+		       $("#main-container").append(data)
+		    });
+		});
+	});
+
+</script>
+</head>
+<body>
+	<div class="ui secondary menu" style="background-color: #e8e8ff;">
+	  <a class="item" style="color: #361eff;">
+	  	<i class="large github icon"></i>
+	  	semantic-vid
+	  </a>
+	  <div id="search-box" class="item">
+	      <div class="ui icon input">
+	        <input id="search-bar" type="text" placeholder="Search...">
+	        <i id="btn-search" class="search link icon"></i>
+	      </div>
+	    </div>	
+	  <div class="right menu">
+	    
+	  </div>
+	</div>
+	<div id="main-container">
+	  
+	</div>
+</body>
+</html>
+
+
+
+

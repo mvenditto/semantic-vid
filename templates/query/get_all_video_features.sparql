@@ -1,0 +1,21 @@
+{% raw %}
+SELECT 
+    (sum(?hs) as ?sport) 
+    (sum(?ha) as ?amusement) 
+    (sum(?hd) as ?adventure) 
+    (sum(?hr) as ?relaxation)
+    (sum(?hn) as ?nature)
+    (sum(?hc) as ?food)    
+WHERE {
+    {% endraw %}
+    <{{ video_url }}> video:depicts ?d.
+    {% raw %}
+    ?d rdfs:subClassOf|rdf:type ?e.
+    BIND(IF (?e = :Sport, 1, 0) as ?hs)
+    BIND(IF (?e = :Amusement, 1, 0) as ?ha)
+    BIND(IF (?e = :Adventure, 1, 0) as ?hd)
+    BIND(IF (?e = :Relaxation, 1, 0) as ?hr)
+    BIND(IF (?e = :NatureArea, 1, 0) as ?hn)
+    BIND(IF (?e = :CulinaryDestination, 1, 0) as ?hc)
+} GROUP BY ?sport ?amusement ?adventure ?relaxation ?nature ?food
+{% endraw %}

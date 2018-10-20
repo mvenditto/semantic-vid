@@ -1,0 +1,13 @@
+{% raw %}
+SELECT ?url ?title ?desc ?tags (group_concat(?scene) as ?scenes) WHERE {
+    ?url a <http://www.purl.org/ontology/video/Video> ;
+        <http://purl.org/dc/terms/title> ?title ;
+        <http://purl.org/dc/terms/description> ?desc ;
+        <http://www.purl.org/ontology/video/keywords> ?tags .
+    {
+        SELECT ?scene WHERE {
+            ?scene <http://www.purl.org/ontology/video/sceneFrom> ?url.
+        }
+    }
+} GROUP BY ?url ?title ?desc ?tags
+{% endraw %}
