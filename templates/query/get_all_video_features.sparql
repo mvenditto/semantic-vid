@@ -8,7 +8,7 @@ SELECT
     (sum(?hc) as ?food)    
 WHERE {
     {% endraw %}
-    <{{ video_url }}> video:depicts ?d.
+    <{{ video_url }}> video:depicts/:hasActivity* ?d.
     {% raw %}
     ?d rdfs:subClassOf|rdf:type ?e.
     BIND(IF (?e = :Sport, 1, 0) as ?hs)
