@@ -9,6 +9,29 @@
 
 ### Individuals
 
+### Kanuhura Maldives Resort
+:KanuhuraMaldivesResort a owl:NamedIndividual, :LuxuryHotel, :CulinaryDestination ;
+  rdfs:label "Kanuhura Maldives resort" ;
+  :hasCountry :Maldives ;
+  :hasActivity :Deepdiving ;
+  :hasActivity :Hiking ;
+  :hasActivity :SpaExperience.
+
+<https://www.youtube.com/watch?v=YRNg0gdnxhA> a owl:NamedIndividual, video:Video ;
+  dc:title "Kanuhura Maldives - The Real Holiday" ;
+  temporal:owlduration "PT3M32S"^^xsd:dayTimeDuration ;
+  dc:description "A resort inspired by nature's beauty and carefully curated for the free-spirited, wild-hearted, gypsy souls in mind.";
+  video:keywords "maldives resort beach sea paradise luxury" .
+  
+<https://www.youtube.com/watch?v=YRNg0gdnxhA#t0:00:45,1:00:32> a owl:NamedIndividual, video:Scene ;
+  rdfs:label "Kanuhura Maldives resort";
+  video:sceneFrom <https://www.youtube.com/watch?v=YRNg0gdnxhA> ;
+  video:temporalSegmentOf <https://www.youtube.com/watch?v=YRNg0gdnxhA> ;
+  video:depicts :KanuhuraMaldivesResort ;
+  temporal:owlduration "PT47S"^^xsd:dayTimeDuration ;
+  temporal:owlhasFinishTime "00:01:32"^^xsd:time ;
+  temporal:owlhasStartTime "00:00:45"^^xsd:time .
+
 ### DUBAI ATLANTIS WATERPARK
 
 <https://www.youtube.com/watch?v=vDR6ObwuUFM> a owl:NamedIndividual, video:Video ;
@@ -27,7 +50,6 @@
   temporal:owlhasStartTime "00:00:50"^^xsd:time .
 
 ### THE ROCKY MOUNTAINS | CANADA - A TRAVEL TOUR
-
 :BanffNationalPark a owl:NameIndividual, :NationalPark ;
   rdfs:subtypeOf :MountainArea ;
   rdfs:label "Banff National Park" ;

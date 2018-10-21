@@ -599,6 +599,11 @@ xsd:time rdf:type rdfs:Datatype .
             rdfs:subClassOf :Relaxation ;
             rdfs:label "sunbathing" .
 
+###  http://www.owl-ontologies.com/travel.owl#SpaExperience
+:SpaExperience rdf:type owl:Class ;
+            rdfs:subClassOf :Relaxation ;
+            rdfs:label "Spa" .
+
 
 ###  http://www.owl-ontologies.com/travel.owl#SurfaceWaterSport
 :SurfaceWaterSport rdf:type owl:Class ;
@@ -707,6 +712,10 @@ owl:NameIndividual rdf:type owl:Class .
                  :Country ;
         rdfs:label "Canada" .
 
+###  http://www.owl-ontologies.com/travel.owl#Maldives
+:Maldives rdf:type owl:NamedIndividual ,
+                 :Country ;
+        rdfs:label "Maldives" .
 
 ###  http://www.owl-ontologies.com/travel.owl#DeepDiving
 :DeepDiving rdf:type owl:NamedIndividual .

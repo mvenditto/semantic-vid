@@ -3,13 +3,14 @@
 @prefix rule: <tag:stardog:api:rule:> .
 @prefix video: <http://www.purl.org/ontology/video/> .
 
-RULE :TransitiveDepicts
+
+RULE :PropagateDepicts
 IF {
-   ?s video:sceneFrom ?v ;
-    video:depicts ?o .
+    ?s video:sceneFrom ?v .
+    ?s video:depicts ?d .
 }
 THEN {
-   ?v video:depicts ?o .
+    ?v video:depicts ?d .
 }
 
 RULE :VideoHasShortDuration
