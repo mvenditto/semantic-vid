@@ -11,6 +11,7 @@
 <script src="/static/js/Youtube.min.js"></script>
 <script src="/static/js/videojs-markers.min.js"></script>
 <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+<script src="/static/js/index.js"></script>
 <style>
 	
 	body {
@@ -36,55 +37,60 @@
 		border-color: #8273ff;
 	}
 
+	code {
+		background-color: rgb(207, 230, 255);
+		border-radius: 3px;
+		font-family: "Monaco","Menlo","Ubuntu Mono","Consolas","source-code-pro",monospace;
+		/*font-size: 0.875em;
+		font-weight: bold;*/
+		color: #5c8bad;
+		padding: 3px;
+		vertical-align: baseline;
+	}
+
 </style>
-<script>
-	$(document).ready(function(){
-		window.semanticVid = {videos: {}}
-		$("#btn-search").click(function(){
-			$("#search-loader").dimmer("show")
-			var searchInput = $("#search-bar").val()
-		    $.get("http://localhost:5000/search/"+searchInput, function(data, status){
-		       $("#main-container").empty();
-		       $("#main-container").append(data)
-			   $("#search-loader").dimmer("hide")
-		    });
-		});
-
-		$('.message .close').on('click', function() {
-			$(this).closest('.message').transition('fade');
-		});
-	});
-
-</script>
 </head>
 <body>
-	<div id="header" class="ui secondary menu" style="background-color: #e8e8ff;">
-	  <a class="item" style="color: #361eff;" href="https://github.com/mvenditto/semantic-vid">
-	  	<i class="large github icon"></i>
-	  	semantic-vid
-	  </a>
-	  <div id="search-box" class="item">
-	      <div class="ui icon input">
-	        <input id="search-bar" type="text" placeholder="Search...">
-	        <i id="btn-search" class="search link icon"></i>
-	      </div>
-	    </div>	
-	  <div class="right menu">
-	    
-	  </div>
+	<div class="ui sidebar vertical menu">
+		<div class="item">
+			<div class="header">Resources</div>
+			<div class="menu">
+				<a class="item"  href="/add_video_wizard">Add a video<i class="plus icon"></i></a>
+			</div>
+		</div>
 	</div>
-	<div style="height: 100%;">
-		<div id="search-loader" class="ui dimmer">
-			<div class="ui text loader">Searching...</div>
+	<div class="pusher">
+		<div id="header" class="ui secondary menu" style="background-color: #e8e8ff;">
+		<a class="item" style="color: #361eff;" href="https://github.com/mvenditto/semantic-vid">
+			<i class="large github icon"></i>
+			semantic-vid
+		</a>
+		<div id="search-box" class="item">
+			<div class="ui icon input">
+				<input id="search-bar" type="text" placeholder="Search...">
+				<i id="btn-search" class="search link icon"></i>
+			</div>
+			</div>	
+		<div class="right menu">
+			<div class="ui button item" onclick="$('.ui.sidebar').sidebar('toggle');">
+				<i class="bars icon"></i>
+			</div>
 		</div>
-		<div class="ui info message" style="margin: 10px;">
-			<i class="close icon"></i>
-			<img class="ui avatar image" src="/static/icons/reasoner.svg">
-			<span>Remember, first search may be slower due to reasoner warm-up time!</span>
 		</div>
-		<div id="main-container"></div>
+		<div style="height: 100%;">
+			<div id="search-loader" class="ui dimmer">
+				<div class="ui text loader">Searching...</div>
+			</div>
+			<div class="ui info message" style="margin: 10px;">
+				<i class="close icon"></i>
+				<img class="ui avatar image" src="/static/icons/reasoner.svg">
+				<span>Remember, first search may be slower due to reasoner warm-up time!</span>
+			</div>
+			<div id="main-container"></div>
+		</div>
 	</div>
 </body>
+</div>
 </html>
 
 

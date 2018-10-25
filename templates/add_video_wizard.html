@@ -1,0 +1,206 @@
+<html>
+<head>
+<meta charset="UTF-8"> 
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/semantic/semantic.min.css">
+<script src="/static/semantic/semantic.min.js"></script>
+<link href="https://vjs.zencdn.net/7.1.0/video-js.css" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+<script src="https://vjs.zencdn.net/7.1.0/video.js"></script>
+<script src="/static/js/Youtube.min.js"></script>
+<script src="/static/js/add_video_wizard.js"></script>
+<script src="/static/js/moment.js"></script>
+</head>
+<style>
+
+.bottom-shadow {
+    box-shadow: 
+    -6px 0 white,       
+    6px 0 white,          
+    0 7px 4px -3px rgba(43, 43, 43, 0.23); 
+}
+
+.bottom-btn {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-bottom: 2%;
+}
+
+</style>
+<body>
+<div class="ui sidebar vertical menu">
+    <div class="item">
+        <div class="header">Resources</div>
+        <div class="menu">
+            <a class="item" href="/add_video_wizard">Add a video<i class="plus icon"></i></a>
+        </div>
+    </div>
+</div>
+<div class="pusher">
+    <div id="header" class="ui secondary menu" style="background-color: #e8e8ff;">
+        <a class="item" style="color: #361eff;" href="https://github.com/mvenditto/semantic-vid">
+            <i class="large github icon"></i>
+            semantic-vid
+        </a>	
+        <div class="right menu">
+            <div class="ui button item" onclick="$('.ui.sidebar').sidebar('toggle');">
+                <i class="bars icon"></i>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div id="upload-loader" class="ui dimmer">
+            <div class="ui text loader">Uploading...</div>
+        </div>
+        <div class="ui sticky stickyTop bottom-shadow two column grid" style="text-align: center; background-color: white;">
+            <div class="eleven wide column">
+                <div class="ui three small steps" style="width: 90%;">
+                    <div id="add_video_form_step_1" class="active step">
+                        <i class="file video icon"></i>
+                        <div class="content">
+                        <div class="title">Your video</div>
+                        <div class="description">Choose the video you want to add</div>
+                        </div>
+                    </div>
+                    <div id="add_video_form_step_2" class="disabled step">
+                        <i class="film icon"></i>
+                        <div class="content">
+                        <div class="title">Scenes</div>
+                        <div class="description">Define the scenes to index</div>
+                        </div>
+                    </div>
+                    <div id="add_video_form_step_3" class="disabled step">
+                        <i class="cloud upload icon"></i>
+                        <div class="content">
+                        <div class="title">Upload</div>
+                        <div class="description">confirm and upload your new video!</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="four wide column" style="position: relative;">
+                <div class="ui buttons bottom-btn" style="margin-bottom: 1%;">
+                    <div onclick="prevStep();" class="ui button" tabindex="2">
+                        <i class="left arrow icon"></i>
+                        Previous
+                    </div>
+                    <div class="ui red button" tabindex="1">
+                        <div class="visible content">Cancel</div>
+                    </div>
+                    <div onclick="nextStep();" class="ui green button" tabindex="0">
+                        Next
+                        <i class="right arrow icon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content" style="margin: 1rem;">
+            <div class="ui two column grid">
+                <div class="seven wide column">
+                    <div class="ui fluid card">
+                        <div id="video_preview" class="content" style="height: 30em;">
+                            <div class="ui fluid placeholder" style="height: 100%;">
+                                <div class="square image" ></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nine wide column">
+                    <div class="step-3" style="display:none; background-color: white;height: 100%;">
+                        <div class="ui huge buttons" style="top: 50%;position: relative;left: 35%;">
+                            <button class="ui negative button">Discard</button>
+                            <div class="or"></div>
+                            <button class="ui positive button">Upload!</button>
+                        </div>
+                    </div>
+                    <div class="step-2" style="display: none;background-color: white;">
+                        <form class="ui form">
+                            <div class="three fields">
+                                <div class="three wide field">
+                                    <label>Start</label>
+                                    <div class="ui input">
+                                        <input name="scene_start" placeholder="" type="text">
+                                    </div>
+                                </div>
+                                <div class="three wide field">
+                                    <label>End</label>
+                                    <div class="ui input">
+                                        <input name="scene_end" placeholder="" type="text">
+                                    </div>
+                                </div>
+                                <div class="ten wide field">
+                                    <label>Label</label>
+                                    <div class="ui input">
+                                        <input name="scene_label" placeholder="" type="text">
+                                        <button class="ui circular icon button" onclick="addCurrScene(); return false;" style="margin-left: 10px;">
+                                            <i class="plus icon"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label>Activities</label>
+                                <select id="scene_concepts" name="concepts" multiple="" class="ui dropdown fluid search"></select>
+                            </div>
+                            <div class="field">
+                                <label>Places</label>
+                                <select id="scene_places" name="concepts" multiple="" class="ui dropdown fluid search"></select>
+                            </div>
+                        </form>
+                        <table id="scenes" class="ui fluid table" style="max-height: 200px; overflow-y: scroll;">
+                            <thead>
+                                <tr>
+                                <th>Start</th>
+                                <th>End</th>
+                                <th>Label</th>
+                                <th>Concepts</th>
+                                <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                
+                    <form class="ui form step-1" style="background-color: white;">
+                        <div class="field">
+                            <label>URL</label>
+                            <div id="_add_video_form_url" class="ui action input">
+                                <input name="url" placeholder="video url" type="text">
+                                <button class="ui icon button" onclick="setAddVideoFormPreview($('form').form('get value', 'url'));return false;">
+                                    <i class="sync alternate icon"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="fields">
+                            <div class="thirteen wide field">
+                                <label>Title</label>
+                                <div class="ui input">
+                                    <input id="title" name="title" placeholder="" type="text">
+                                </div>
+                            </div>
+                            <div class="three wide field">
+                                <label>Duration</label>
+                                <div class="ui input">
+                                    <input id="duration" name="duration" placeholder="" type="text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Tags</label>
+                            <select id="add_video_form_tags" name="tags" multiple="" class="ui search fluid dropdown"></select>
+                        </div>
+                        <div class="field">
+                            <label>Description</label>
+                            <textarea name="description"></textarea>
+                        </div>
+                        
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

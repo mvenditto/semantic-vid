@@ -1,0 +1,18 @@
+PREFIX dbpedia: <http://dbpedia.org/ontology/>
+PREFIX dbp: <http://dbpedia.org/property/>
+PREFIX dbc: <http://dbpedia.org/resource/Category:>
+
+SELECT *
+WHERE {
+  SERVICE <http://dbpedia.org/sparql/> {
+    SELECT ?sport ?label
+    WHERE {
+      ?sport rdf:type dbpedia:Sport ;
+             rdfs:label ?label .
+      FILTER (lang(?label) = "{{cfg['lang']}}")
+      FILTER regex(?label, "{{cfg['expr']}}", "im").
+      # ?label <bif:contains> "surfing" .
+    }
+  } 
+}
+ORDER BY ASC(?label)

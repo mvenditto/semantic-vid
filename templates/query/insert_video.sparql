@@ -1,0 +1,14 @@
+PREFIX temporal: <http://swrl.stanford.edu/ontologies/built-ins/3.3/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+
+INSERT DATA {
+	<{{cfg['url']}}> rdf:type owl:NamedIndividual ;
+        rdf:type video:Video ;
+        video:keywords {{cfg['keywords']}} ;
+        temporal:owlduration {{cfg['duration']}} ;
+        dcterms:title {{cfg['title']}} ;
+        dcterms:description {{cfg['description']}} .
+    {% for s in cfg['scenes'] %}
+    
+    {% endfor %}
+}

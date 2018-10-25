@@ -1,5 +1,7 @@
 from query import *
 from urllib.parse import urljoin
+import jinja2
+import re
 import requests
 import json
 import datetime
@@ -49,7 +51,7 @@ def get_all_videos(db):
 	}, zip(r, range(len(r)))))
 
 _id = 0
-def _map_result(db, r):
+def _map_result(db, r, expr):
 	global _id
 	n = 2
 	l = list(filter(lambda x: x != {}, r))
@@ -60,6 +62,12 @@ def _map_result(db, r):
 		a,b = res
 		url = b['v']['value'].split('#')[0]
 		matched_concept = a['y']['value']
+		desc = re.sub(
+			expr, 
+			r'<code>\g<0></code>', 
+			b['desc']['value'],
+			flags=re.IGNORECASE)
+
 		if not url in rmap.keys():
 			rmap[url] = dict(
 				id = _id,
@@ -68,15 +76,14 @@ def _map_result(db, r):
 				scenes = get_video_scenes(db, url),
 				url = url,
 				title = b['title']['value'],
-				description = b['desc']['value'],
+				description = desc,
 				keywords = b['tags']['value'].split(),
 				tourism_features = get_tourism_features(db, url)
 			)
 			_id = _id + 1
 		else:
 			rmap[url]['concepts'].add(matched_concept)
-
-	rmap[url]['n_concepts'] = len(rmap[url]['concepts'])
+			rmap[url]['n_concepts'] = len(rmap[url]['concepts'])
 
 	return rmap
 
@@ -90,7 +97,22 @@ def search_videos(db, expr):
 	r = db.do_query(query2)['results']['bindings']
 	r1 = set(map(lambda x: x['x']['value'] , filter(lambda x: 'x' in x, r)))
 	
-	return _map_result(db, r)
+	return _map_result(db, r, expr)
+
+def search_activity(db, expr, type_=":Activity"):
+	query = q_find_activity_by_type_keyword(expr, type_)
+	r0 = db.do_query(query, reasoning=True)['results']['bindings']
+	
+	return list(map(lambda x: dict(
+		activity=x['a']['value'], label=x['label']['value']), r0))
+
+def search_activity_dbpedia(db, expr):
+	query = q_find_dbpedia_tourist_activity_by_regex(expr)
+	print(query)
+	r0 = db.do_query(query)
+	r0 = r0['results']['bindings']
+	return list(map(lambda x: dict(
+		activity=x['a']['value'], label=x['label']['value']), r0))
 
 class Stardog():
 	def __init__(self, db_name,  auth=('admin', 'admin'), server_url='http://localhost:5820/'):
@@ -120,10 +142,12 @@ class Stardog():
 if __name__ == '__main__':
 	
 	db = Stardog(db_name='semantic-vid_3')
-	#r = related2(db, 'water*')
-	r = get_tourism_features(db, "https://www.youtube.com/watch?v=vDR6ObwuUFM")
-	#r2 = search_videos(db, 'surf*')
-	#scenes = get_video_scenes(db, "https://www.youtube.com/watch?v=6bY1EpDaJ0c")
+	# r = related2(db, 'water*')
+	# r = get_tourism_features(db, "https://www.youtube.com/watch?v=vDR6ObwuUFM")
+	# r2 = search_videos(db, 'surf*')
+	# scenes = get_video_scenes(db, "https://www.youtube.com/watch?v=6bY1EpDaJ0c")
+	r = search_activity(db, "surf*", type_=":Activity")
+	#r = search_activity_dbpedia(db, "dolphins")
 	print(r)
 	
 

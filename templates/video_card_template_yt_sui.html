@@ -43,9 +43,9 @@
 				  	$('#desc-tab-{{v['id']}}').removeClass('active');$('#scenes-tab-{{v['id']}}').addClass('active');">
 				  Scenes</a>
 				</div>
-				<div class="content" style="overflow-y: auto;">
+				<div class="content" style="overflow-y: auto; margin-bottom: 31px;">
 					<div id="desc-{{v['id']}}" class="description" style="display:visible;">
-						<p>{{v["description"]}}</p>
+						{{ v["description"] | safe }}
 					</div>
 					<div id ="scenes-{{v['id']}}" style="display:none;">
 					  	<div class="ui relaxed divided list">
@@ -62,6 +62,7 @@
 						</div>
 					</div>
 				</div>
+				
 				<div class="ui bottom right attached label" onclick="$('#concepts-{{v['id']}}').dimmer('show');">
 					Concepts
 					<div class="detail">{{v['n_concepts']}}</div>
@@ -69,7 +70,8 @@
 				<div class="ui bottom left attached label" 
 					onmouseenter="$('#header-bar-{{v['id']}}').removeClass('active')"
 					onmouseleave="$('#header-bar-{{v['id']}}').addClass('active')">
-					Badges
+					<i class="star icon"></i>
+					Features
 				</div>
 				
 				<div id="concepts-{{v['id']}}" class="ui top aligned dimmer">
@@ -80,8 +82,9 @@
 					  		{% for s in v["concepts"] %}
 							<div class="item">
 							    <div class="content">
-							      <a class="header">
-							      	{{s}}
+							      <a class="header" href="{{s}}">
+									{% set uri = s.split('/') %}
+									{{ uri[-1] }}
 							  	  </a>
 								</div>
 							</div>

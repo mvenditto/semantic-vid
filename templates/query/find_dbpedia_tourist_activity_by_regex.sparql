@@ -1,0 +1,16 @@
+PREFIX dbp: <http://dbpedia.org/property/>
+PREFIX dbc: <http://dbpedia.org/resource/Category:>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+
+SELECT *
+WHERE {
+  SERVICE <http://DBpedia.org/sparql/> {
+    SELECT ?a ?label
+    WHERE {
+        ?a dcterms:subject dbc:Tourist_activities .
+        ?a rdfs:label ?label .
+        FILTER (lang(?label) = 'en')
+        ?label <bif:contains> "{{cfg['expr']}}" .
+    }
+  } 
+}

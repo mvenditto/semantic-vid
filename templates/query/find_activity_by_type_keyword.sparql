@@ -1,0 +1,5 @@
+SELECT ?a ?label WHERE {
+    ?a rdf:type|rdfs:subClassOf* {{cfg['type']}} ;
+        rdfs:label ?label .
+    ?label <tag:stardog:api:property:textMatch> "{{cfg['expr']}}". 
+}
