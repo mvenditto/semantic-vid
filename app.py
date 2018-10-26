@@ -1,7 +1,7 @@
-from flask import Flask, render_template, url_for, jsonify
+from flask import Flask, render_template, request, url_for, jsonify
 from flask_cors import CORS
 from utils import *
-from stardog_util import Stardog, search_videos, search_activity, search_activity_dbpedia
+from stardog_util import *
 import requests
 
 app = Flask(__name__)
@@ -18,6 +18,12 @@ def index():
 def add_video_wizard():
 	return render_template('add_video_wizard.html')
 
+@app.route('/upload_video', methods=['POST'])
+def upload_video():
+	content = request.get_json(silent=True)
+	add_video(db, content)
+	return jsonify(dict(result="success"))
+
 @app.route('/activity_search/<atype>/<expr>')
 def activity_search(atype, expr):
 	try:
@@ -25,6 +31,16 @@ def activity_search(atype, expr):
 		return jsonify(result)
 	except Exception as e:
 		return jsonify(dict(success=False, msg=str(e)))
+
+@app.route('/activity_classes/')
+def activity_classes():
+	return jsonify(get_activity_classes(db))
+
+@app.route('/add_activity', methods=['POST'])
+def add_activity():
+	content = request.get_json(silent=True)
+	create_activity(db, content)
+	return jsonify(dict(result="success"))
 
 @app.route('/yt_video_info/<video_id>')
 def yt_video_info(video_id):

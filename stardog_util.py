@@ -114,25 +114,65 @@ def search_activity_dbpedia(db, expr):
 	return list(map(lambda x: dict(
 		activity=x['a']['value'], label=x['label']['value']), r0))
 
+def add_video(db, video_data):
+	query = q_insert_video(video_data)
+	print(query)
+	r = db.do_update_query(query)
+	print(r)
+
+def get_activity_classes(db):
+	query = q_get_activity_class()
+	r = db.do_query(query, reasoning=True)['results']['bindings']
+	r = dict(
+			results=list(map(lambda x: dict(
+				uri=x['a']['value'], label=x['label']['value']),r))
+		)
+	return r
+
+def create_activity(db, activity):
+	query = q_create_activity(activity)
+	print(query)
+	r = db.do_update_query(query)
+	print(r)
+
 class Stardog():
 	def __init__(self, db_name,  auth=('admin', 'admin'), server_url='http://localhost:5820/'):
 		self.server_url = server_url
 		self.db_name = db_name
-		self.db_url = urljoin(self.server_url, self.db_name) + "/query"
+		self._base_url = urljoin(self.server_url, self.db_name)
+		self.query_url = self._base_url + "/query"
+		self.update_url = self._base_url + "/update"
 
 		self.auth = auth
-		self.headers = {
+		self._query_headers = {
 			'Content-Type': 'application/sparql-query',
 			'Accept': 'application/sparql-results+json'
 		}
+		self._update_headers = {
+			'Content-Type': 'application/sparql-update',
+			'Accept': 'application/sparql-results+json'
+		}
 
+	def do_update_query(self, sparql_query, reasoning=False):
+		try:
+			r = requests.post(
+				url=self.update_url,
+				auth=self.auth, 
+				data=sparql_query, 
+				headers=self._update_headers,
+				params= { } if not reasoning else {"reasoning": "true"}
+			)
+			return r.json()
+		except:
+			return None
+			
 	def do_query(self, sparql_query, reasoning=False):
 		try:
 			r = requests.post(
-				url=self.db_url,
+				url=self.query_url,
 				auth=self.auth, 
 				data=sparql_query, 
-				headers=self.headers,
+				headers=self._query_headers,
 				params= { } if not reasoning else {"reasoning": "true"}
 			)
 			return r.json()
@@ -148,7 +188,7 @@ if __name__ == '__main__':
 	# scenes = get_video_scenes(db, "https://www.youtube.com/watch?v=6bY1EpDaJ0c")
 	r = search_activity(db, "surf*", type_=":Activity")
 	#r = search_activity_dbpedia(db, "dolphins")
-	print(r)
+	print(get_activity_classes(db))
 	
 
 

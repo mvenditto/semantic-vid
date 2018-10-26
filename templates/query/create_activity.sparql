@@ -1,0 +1,5 @@
+INSERT DATA {
+    :{{cfg['name']}} rdf:type owl:NamedIndividual ;
+        rdf:type <{{cfg['type']}}> ;
+        rdfs:label "{{cfg['label']}}" .
+}

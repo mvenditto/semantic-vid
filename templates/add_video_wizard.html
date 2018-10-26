@@ -109,44 +109,65 @@
                 <div class="nine wide column">
                     <div class="step-3" style="display:none; background-color: white;height: 100%;">
                         <div class="ui huge buttons" style="top: 50%;position: relative;left: 35%;">
-                            <button class="ui negative button">Discard</button>
+                            <button class="ui negative button" onclick="">Discard</button>
                             <div class="or"></div>
-                            <button class="ui positive button">Upload!</button>
+                            <button class="ui positive button" onclick="uploadNewVideo();">Upload!</button>
                         </div>
                     </div>
                     <div class="step-2" style="display: none;background-color: white;">
                         <form class="ui form">
-                            <div class="three fields">
-                                <div class="three wide field">
+                            <div class="equal width fields">
+                                <div class="field">
                                     <label>Start</label>
-                                    <div class="ui input">
+                                    <div class="ui action input">
                                         <input name="scene_start" placeholder="" type="text">
+                                        <button id="scene_start_btn" class="ui right labeled icon button"
+                                            onclick="currentVideoPosTo('scene_start');return false;">
+                                            <i class="clock outline icon"></i>
+                                            Current Position
+                                        </button>
                                     </div>
                                 </div>
-                                <div class="three wide field">
+                                <div class="field">
                                     <label>End</label>
-                                    <div class="ui input">
+                                    <div class="ui action input">
                                         <input name="scene_end" placeholder="" type="text">
-                                    </div>
-                                </div>
-                                <div class="ten wide field">
-                                    <label>Label</label>
-                                    <div class="ui input">
-                                        <input name="scene_label" placeholder="" type="text">
-                                        <button class="ui circular icon button" onclick="addCurrScene(); return false;" style="margin-left: 10px;">
-                                            <i class="plus icon"></i>
+                                        <button id="scene_end_btn" class="ui right labeled icon button"
+                                            onclick="currentVideoPosTo('scene_end');return false;">
+                                            <i class="clock outline icon"></i>
+                                            Current Position
                                         </button>
                                     </div>
                                 </div>
                             </div>
                             <div class="field">
-                                <label>Activities</label>
-                                <select id="scene_concepts" name="concepts" multiple="" class="ui dropdown fluid search"></select>
+                                <label>Label</label>
+                                <div class="ui input">
+                                    <input name="scene_label" placeholder="" type="text">
+                                </div>
+                            </div>
+                            <div class="fields">
+                                <div class="fifteen wide field">
+                                    <label>Activities</label>
+                                    <select id="scene_concepts" name="concepts" multiple="" class="ui dropdown search">
+                                    </select>
+                                </div>
+                                <div class="one wide field">
+                                    <p></p>
+                                    <div class="ui circular icon button" style="margin-top: 0.78em;"
+                                        onclick="$('#new_activity_dialog').modal('show');return false;">
+                                        <i class="ui plus icon"></i>
+                                    </div>
+                                </div>
                             </div>
                             <div class="field">
                                 <label>Places</label>
                                 <select id="scene_places" name="concepts" multiple="" class="ui dropdown fluid search"></select>
                             </div>
+                            <button class="ui blue button" onclick="addCurrScene(); return false;">
+                                <i class="plus icon"></i>
+                                Add Scene
+                            </button>
                         </form>
                         <table id="scenes" class="ui fluid table" style="max-height: 200px; overflow-y: scroll;">
                             <thead>
@@ -203,4 +224,40 @@
     </div>
 </div>
 </body>
+<div id="new_activity_dialog" class="ui tiny modal">
+    <div class="header">
+      Create an Activity
+    </div>
+    <div class="content">
+      <form id="new_activity_form" class="ui form">
+          <div class="field">
+              <label>Type</label>
+              <select id="activity_type" id="activity_type" name="activity_type" class="ui selection dropdown"></select>
+          </div>
+          <div class="ui two fields">
+                <div class="six wide field">
+                    <label>Name</label>
+                    <div class="ui input">
+                        <input id="activity_name" name="activity_name" placeholder="" type="text">
+                    </div>
+                </div>
+                <div class="ten wide field">
+                    <label>Label</label>
+                    <div class="ui input">
+                        <input id="activity_label" name="activity_label" placeholder="" type="text">
+                    </div>
+                </div>
+          </div>
+      </form>
+    </div>
+    <div class="actions">
+      <div class="ui negative deny button">
+        Cancel
+      </div>
+      <div class="ui positive right labeled icon button" onclick="createNewActivity();">
+        Create!
+        <i class="checkmark icon"></i>
+      </div>
+    </div>
+</div>
 </html>

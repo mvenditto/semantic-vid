@@ -6,6 +6,18 @@ $(document).ready(function(){
         allowAdditions: true,
     });
 
+    $('#activity_type').dropdown({
+        apiSettings: {
+          url: '/activity_classes/'
+        },
+        fields: {
+          name   : 'label',
+          value  : 'uri',
+          text : 'label'
+        },
+        minCharacters : 3 
+      })
+
     $('#scene_concepts').dropdown({
         apiSettings: {
           url: '/activity_search/:Activity/{query}'
@@ -108,6 +120,14 @@ $(document).ready(function(){
         return false;	
     };
 
+    window.currentVideoPosTo = function(to) {
+        videojs("add_video_form_preview").ready(function() { 
+            var d = this.currentTime();
+            var t = moment.duration(d, 'seconds');
+            $(`input[name='${to}']`).val(moment.utc(t.asMilliseconds()).format("HH:mm:ss"));
+        });
+    }
+
     $("form").on('keyup keypress', function(e) {
         var keyCode = e.keyCode || e.which;
         if (keyCode === 13) { 
@@ -186,6 +206,7 @@ $(document).ready(function(){
         var url = form1.form("get value", "url")
         var title = form1.form("get value", "title")
         var description = form1.form("get value", "description")
+        var duration = form1.form("get value", "duration")
         var tags = form1.form("get value", "tags").join(" ")
         
         var _scenes = $(".scene")
@@ -195,7 +216,7 @@ $(document).ready(function(){
             var _concepts = s.find("td[data-label='Concepts'] .label")
             var concepts = []
             for(j=0; j < _concepts.length; j++) {
-                concepts.push(_concepts[i].getAttribute("data-uri"))
+                concepts.push(_concepts[j].getAttribute("data-uri"))
             }
             var r = {
                 start: s.find("td[data-label='Start']").text(),
@@ -209,12 +230,37 @@ $(document).ready(function(){
         var newVideo = {
             url: url,
             title: title,
+            duration: duration,
+            keywords: tags,
             description: description,
-            tags: tags,
             scenes: scenes
         }
 
-        console.log(newVideo)
-        
+        $.ajax({
+            type: 'POST',
+            url: '/upload_video',
+            data:  JSON.stringify(newVideo),
+            success: function(data) { console.log("result", data); },
+            contentType: "application/json",
+            dataType: 'json'
+        });
+    }
+
+    window.createNewActivity = function () {
+        var form = $("#new_activity_form")
+        var a = {
+            name: $(form).form("get value", "activity_name"),
+            label: $(form).form("get value", "activity_label"),
+            type: $("#activity_type").dropdown("get value")
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: '/add_activity',
+            data:  JSON.stringify(a),
+            success: function(data) { console.log("result", data); },
+            contentType: "application/json",
+            dataType: 'json'
+        });
     }
 });

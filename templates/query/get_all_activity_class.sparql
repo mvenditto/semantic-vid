@@ -1,0 +1,6 @@
+SELECT ?a ?label WHERE {
+	?a a owl:Class ;
+         rdf:type|rdfs:subClassOf :Activity ;
+         rdfs:label ?label .
+    FILTER(?a != owl:Nothing)
+} ORDER BY ?label ?a

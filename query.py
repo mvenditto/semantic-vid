@@ -13,6 +13,12 @@ _get_all_video_features = _ENV.get_template('get_all_video_features.sparql')
 _get_all_videos = _ENV.get_template('get_all_videos.sparql')
 _find_activity_by_type_keyword = _ENV.get_template('find_activity_by_type_keyword.sparql')
 _find_dbpedia_tourist_activity_by_regex = _ENV.get_template('find_dbpedia_tourist_activity_by_regex.sparql')
+_insert_video = _ENV.get_template('insert_video.sparql')
+_get_all_activity_class = _ENV.get_template('get_all_activity_class.sparql')
+_create_activity = _ENV.get_template('create_activity.sparql')
+
+def q_insert_video(video_data):
+    return _insert_video.render(cfg=video_data)
 
 def q_find_concepts_by_keyword(expr, max_len=2): 
     return _find_concepts_by_keyword.render(cfg={
@@ -49,6 +55,12 @@ def q_get_all_video_features(video_url):
 def q_get_all_videos(): 
     return _get_all_videos.render()
 
+def q_get_activity_class():
+    return _get_all_activity_class.render()
+
+def q_create_activity(new_activity):
+    return _create_activity.render(cfg=new_activity)
+
 if __name__ == '__main__':
     t0 = q_find_concepts_by_keyword("*water")
 
@@ -61,6 +73,23 @@ if __name__ == '__main__':
     t4 = q_get_all_videos()
 
     t5 = q_find_dbpedia_tourist_activity_by_regex('dolphins')
+
+    v = {
+        'url': 'https://www.youtube.com/watch?v=mss8WYVVf3o', 
+        'title': 'Virtual Spiders Evolution', 
+        'description': 'sdffsdfsdf', 
+        'tags': 'A B C', 
+        'scenes': [
+            {
+                'start': 'PT0H5M44S', 'end': 'PT0H5M44S', 
+                'label': 'maldives resort',
+                'concepts': [
+                    'http://www.owl-ontologies.com/travel.owl#KanuhuraMaldivesResort', 
+                    'http://www.owl-ontologies.com/travel.owl#Surf']
+            }
+        ]}
     
-    print(t5)
+    t6 = q_insert_video(v)
+    
+    print(q_create_activity(dict(name="activity", label="dasdsad", type="http://www.owl-ontologies.com/travel.owl#Relaxation")))
     # print(t0, t1, t2, t3, t4, t5)
