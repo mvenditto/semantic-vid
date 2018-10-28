@@ -53,7 +53,7 @@ $(document).ready(function(){
 
     var getYTVideoInfo = function(url) {
         var id = ytURLVideoIdRegex.exec(url)[2]
-        console.log(id)
+
         $.getJSON(`/yt_video_info/${id}`, function(result) {
 
             Object.keys(result).map(function(key, index) {
@@ -73,7 +73,6 @@ $(document).ready(function(){
                 $("#add_video_form_tags").dropdown("set selected", result.keywords)
             }
         });
-        
     }
 
     window.setAddVideoFormPreview = function(url) {
