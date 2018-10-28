@@ -10,7 +10,7 @@ INSERT DATA {
         dcterms:title "{{cfg['title']}}" ;
         dcterms:description "{{cfg['description']}}" .
     {% for s in cfg['scenes'] %}
-    <{{cfg['url']}}_{{s['start']}}{{s['end']}}> rdf:type owl:NamedIndividual ;
+    <{{cfg['url']}}#t{{s['start']}},{{s['end']}}> rdf:type owl:NamedIndividual ;
         rdf:type video:Scene ;
         video:sceneFrom <{{cfg['url']}}> ;
         temporal:owlhasStartTime "{{s['start']}}"^^xsd:time ;
