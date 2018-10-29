@@ -74,22 +74,4 @@ if __name__ == '__main__':
 
     t5 = q_find_dbpedia_tourist_activity_by_regex('dolphins')
 
-    v = {
-        'url': 'https://www.youtube.com/watch?v=mss8WYVVf3o', 
-        'title': 'Virtual Spiders Evolution', 
-        'description': 'sdffsdfsdf', 
-        'tags': 'A B C', 
-        'scenes': [
-            {
-                'start': 'PT0H5M44S', 'end': 'PT0H5M44S', 
-                'label': 'maldives resort',
-                'concepts': [
-                    'http://www.owl-ontologies.com/travel.owl#KanuhuraMaldivesResort', 
-                    'http://www.owl-ontologies.com/travel.owl#Surf']
-            }
-        ]}
-    
-    t6 = q_insert_video(v)
-    
-    print(q_create_activity(dict(name="activity", label="dasdsad", type="http://www.owl-ontologies.com/travel.owl#Relaxation")))
     # print(t0, t1, t2, t3, t4, t5)
