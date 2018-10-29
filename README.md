@@ -10,7 +10,7 @@
 - [Stardog Knowledge Graph](https://www.stardog.com/docs/)
 ## Environment Setup
 1. [Install and configure Stardog](https://www.stardog.com/docs/)
-2. Setup the db:
+2. Setup the db (and set username:passwd=admin:admin, or change it in source) :
  ```bash
   # start stardog server (localhost:5820)
   /opt/stardog/bin/stardog-server  start
