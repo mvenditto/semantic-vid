@@ -1,4 +1,5 @@
 # semantic-vid
+![Semantic-vid home](https://github.com/mvenditto/semantic-vid/blob/master/docs/images/semantic-vid_0.png)
 ## Dependencies
 - Firefox 63.0 (64 bit) (not tested on Chrome)
   - [CORS plugin](https://addons.mozilla.org/it/firefox/addon/cors-everywhere/) may be needed
